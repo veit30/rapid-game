@@ -1,4 +1,4 @@
-export default class {
+class InputHandler {
   constructor() {
     this.mouseEvents = [];
     this.keyEvents = [];
