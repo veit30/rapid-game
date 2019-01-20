@@ -36,3 +36,11 @@ class InputHandler {
   }
 
 }
+
+class Camera {
+  constructor() {
+
+  }
+
+  
+}
