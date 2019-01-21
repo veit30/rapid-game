@@ -15,6 +15,9 @@ class InputHandler {
 
     window.addEventListener('keydown', e => {
       this.keyState[e.keyCode || e.which] = true;
+      for(let f of this.keyEvents) {
+        f(e);
+      }
       e.preventDefault();
     });
 
@@ -42,5 +45,5 @@ class Camera {
 
   }
 
-  
+
 }

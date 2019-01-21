@@ -42,8 +42,24 @@ class Line {
       }
     }
 
-
-
     return false;
   }
+
+  render() {
+    let ctx = this.ctx;
+    ctx.save();
+    ctx.strokeStyle = this.color || '#ff0000';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(this.start.x,this.start.y);
+    ctx.lineTo(this.end.x,this.end.y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  get length() {
+    return Math.sqrt(Math.pow(this.end.x-this.start.x,2) + Math.pow(this.end.y-this.start.y,2));
+  }
+
+  
 }

@@ -113,6 +113,10 @@ class Rectangle {
     bounds.push(new Line(lastCorner,corners[0]));
     return bounds;
   }
+
+  calcBoundsWithMaxLenght() {
+
+  }
 }
 
 class Player extends Rectangle {
