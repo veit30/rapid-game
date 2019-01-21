@@ -92,25 +92,41 @@ let rCorners = rec.calcCorners();
 let dot = new Circle(new Vector2(610,480),2);
 dot.ctx = ctx;
 dot.color = '#ffffff';
+let lines2 = [
+  new Line(new Vector2(600,400),new Vector2(600,600)),
+  new Line(new Vector2(500,500),new Vector2(700,500)),
+]
+for(let l of lines2) {
+  l.ctx = ctx;
+  l.color = '#22f2f1';
+  l.render();
+}
 let wrap = () => {
   clear();
   rec.render();
   dot.render();
 
+  for(let l of lines2) {
+    l.render();
+  }
+
   let lines = rCorners.map(e => {
     return new Line(e,dot.pos);
   })
+  lines = [lines.sort((l1,l2) => {
+    return l1.length - l2.length;
+  })[0]];
   lines.push(new Line(rec.pos,dot.pos));
+
   let line;
-  let colors = ['#ff0000','#00ff00','#0000ff','#00ffff','#ffff00'];
-  let i = 0;
   for(line of lines) {
     line.ctx = ctx;
-    line.color = colors[i];
+    line.color = '#00ffff';
     line.render();
-    // console.log(line.length,colors[i],i);
-    i++;
   }
+
+
+
 
   let len = lines.reduce((a,e) => {
     return a += e.length;
