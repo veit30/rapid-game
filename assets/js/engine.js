@@ -83,6 +83,7 @@ addGameObjects(ground,obj1);
 */
 let rec = new Rectangle(new Vector2(600,500),60,70);
 rec.ctx = ctx;
+rec.color = '#555';
 let bounds = rec.calcBounds();
 let perimeter = bounds.reduce((a,c) => {
   return a += c.length;
@@ -132,10 +133,20 @@ let wrap = () => {
     return a += e.length;
   },0);
 
-  console.log('ges. length: ' + len);
+  // console.log('ges. length: ' + len);
   let l3 = lines[0].translateStartTo(new Vector2(0,0));
-  console.log(l3);
-  console.log('angle: ' + l3.end.direction);
+  let l4 = lines[1].translateStartTo(new Vector2(0,0));
+  // console.log(l3);
+  // console.log('angle-dot-corner: ' + l3.end.direction);
+  // console.log('angle-middle-dot: ' + l4.end.direction);
+  // console.log(l3.end);
+  // console.log(l4.end);
+
+  // edge cases mit rand fehlen noch!
+  // und wenn punkt auf den achsen liegt
+  if((l3.end.x * Infinity) === (l4.end.x * Infinity) && (l3.end.y * Infinity) === (l4.end.y * Infinity)) {
+    console.log('collision');
+  }
 }
 
 wrap();

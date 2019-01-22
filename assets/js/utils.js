@@ -18,17 +18,17 @@ class Vector2 {
     let nV = rotateVector({x: this.x-x,y: this.y-y},angle);
     return new Vector2(nV.x + x,nV.y + y);
   }
-  
+
   get norm() {
     return new Vector2(1/this.length*this.x,1/this.length*this.y);
   }
-  
+
   get length() {
     return Math.sqrt(Math.pow(this.x,2)+Math.pow(this.y,2));
   }
-  
+
   get direction() {
-    return Math.acos(this.x/this.length) * 180/Math.PI;
+    return Math.acos(this.x/this.length) * 360/Math.PI;
   }
 }
 
@@ -75,14 +75,14 @@ class Line {
   get length() {
     return Math.sqrt(Math.pow(this.end.x-this.start.x,2) + Math.pow(this.end.y-this.start.y,2));
   }
-  
+
   translateStartTo(pos) {
     let s = new Vector2(this.start.x-(pos.x+this.start.x),this.start.y-(pos.y+this.start.y))
     let e = new Vector2(this.end.x-(pos.x+this.start.x),this.end.y-(pos.y+this.start.y));
     return new Line(s,e);
   }
-  
-  
+
+
 
 
 }
