@@ -111,7 +111,7 @@ let wrap = () => {
   }
 
   let lines = rCorners.map(e => {
-    return new Line(e,dot.pos);
+    return new Line(dot.pos,e);
   })
   lines = [lines.sort((l1,l2) => {
     return l1.length - l2.length;
@@ -133,6 +133,9 @@ let wrap = () => {
   },0);
 
   console.log('ges. length: ' + len);
+  let l3 = lines[0].translateStartTo(new Vector2(0,0));
+  console.log(l3);
+  console.log('angle: ' + l3.end.direction);
 }
 
 wrap();
