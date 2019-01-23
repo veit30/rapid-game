@@ -148,11 +148,9 @@ let wrap = () => {
   if((l3.end.x * inf) === (l4.end.x * inf) && (l3.end.y * inf) === (l4.end.y * inf)) {
     console.log('collision');
   }
-  if(l3.end.x === 0 || l3.end.y === 0) {
+  if(l3.end.x === 0 || l3.end.y === 0 || l4.end.x === 0 || l4.end.y === 0) {
     // berechne winkel zwischen den beiden linien (wenn >= 90 dann collision)
-    if(l4.length <= rec.collisionRadius) {
-      console.log("collision2");
-    }
+    
   }
 }
 

@@ -6,7 +6,7 @@ const rotateVector = ({x,y},angle) => {
   return new Vector2(x1,y1);
 }
 
-const calcDeg = (angle) => {return angle * Math.PI / 180};
+const calcDeg = angle => {return angle * Math.PI / 180};
 
 class Vector2 {
   constructor(x,y) {
@@ -74,6 +74,10 @@ class Line {
 
   get length() {
     return Math.sqrt(Math.pow(this.end.x-this.start.x,2) + Math.pow(this.end.y-this.start.y,2));
+  }
+  
+  get slope() {
+    return (this.end.y - this.start.y)/(this.end.x - this.start.x);
   }
 
   translateStartTo(pos) {
