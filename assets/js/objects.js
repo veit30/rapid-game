@@ -29,9 +29,9 @@ class Rectangle {
     this.collision = true;
     this.ctx;
   }
-  
+
   get collisionRadius() {
-    let l =  new Line(this.calcCorners()[0],this.pos);
+    let l = new Line(this.calcCorners()[0],this.pos);
     return l.length;
   }
 
@@ -61,7 +61,7 @@ class Rectangle {
     this.ctx.stroke();
     this.ctx.restore();
 
-    let corners = this.calcCorners();
+    let corners = this.corners;
 
     this.ctx.save();
     this.ctx.fillStyle = '#00ff00';
@@ -89,14 +89,14 @@ class Rectangle {
     });
   }
 
-  calcCorners() {
+  get corners() {
     // reihenfolge ist wichtig
     let corners = [
       new Vector2(this.pos.x - this.width * .5, this.pos.y - this.height * .5),
       new Vector2(this.pos.x + this.width * .5, this.pos.y - this.height * .5),
       new Vector2(this.pos.x + this.width * .5, this.pos.y + this.height * .5),
       new Vector2(this.pos.x - this.width * .5, this.pos.y + this.height * .5),
-    ]
+    ];
     let cornersRotated = corners.map(c => c.rotateTo(this.pos,this.rotation));
     return cornersRotated;
   }
@@ -118,9 +118,6 @@ class Rectangle {
     return bounds;
   }
 
-  calcBoundsWithMaxLenght() {
-
-  }
 }
 
 class Player extends Rectangle {

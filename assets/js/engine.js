@@ -60,39 +60,14 @@ const gameLoop = () => {
 
 const IH = new InputHandler();
 
-
-
-
-
-
-
-// IH.bindOnKeyEvent(e => {
-//   console.log(e.keyCode + " " + e.which);
-// })
-/*
-let ground = new Rectangle({x:600,y:760},1200,20);
-ground.color = '#775d49';
-ground.ctx = ctx;
-player = new Player({x:160,y:140},40,60);
-player.color = '#5ca1c8';
-player.input = IH;
-player.ctx = ctx;
-let obj1 = new Rectangle({x: 200, y: 200}, 60,60,60,'#718ebc');
-obj1.ctx = ctx;
-addGameObjects(ground,obj1);
-*/
 let rec = new Rectangle(new Vector2(600,500),60,70);
 rec.ctx = ctx;
 rec.color = '#555';
-let bounds = rec.calcBounds();
-let perimeter = bounds.reduce((a,c) => {
-  return a += c.length;
-},0)
-console.log(perimeter);
-let rCorners = rec.calcCorners();
+let corners = rec.corners;
 let dot = new Circle(new Vector2(610,480),2);
 dot.ctx = ctx;
 dot.color = '#ffffff';
+
 let lines2 = [
   new Line(new Vector2(600,400),new Vector2(600,600)),
   new Line(new Vector2(500,500),new Vector2(700,500)),
@@ -102,7 +77,8 @@ for(let l of lines2) {
   l.color = '#22f2f1';
   l.render();
 }
-let wrap = () => {
+
+let collisioncheck1 = () => {
   clear();
   rec.render();
   dot.render();
@@ -111,7 +87,7 @@ let wrap = () => {
     l.render();
   }
 
-  let lines = rCorners.map(e => {
+  let lines = corners.map(e => {
     return new Line(dot.pos,e);
   })
   lines = [lines.sort((l1,l2) => {
@@ -126,24 +102,13 @@ let wrap = () => {
     line.render();
   }
 
-
-
-
   let len = lines.reduce((a,e) => {
     return a += e.length;
   },0);
 
-  // console.log('ges. length: ' + len);
   let l3 = lines[0].translateStartTo(new Vector2(0,0)); // corner
   let l4 = lines[1].translateStartTo(new Vector2(0,0)); // middle
-  // console.log(l3);
-  // console.log('angle-dot-corner: ' + l3.end.direction);
-  // console.log('angle-middle-dot: ' + l4.end.direction);
-  // console.log(l3.end);
-  // console.log(l4.end);
 
-  // edge cases mit rand fehlen noch!
-  // und wenn punkt auf den achsen liegt
   let inf = Infinity;
   if((l3.end.x * inf) === (l4.end.x * inf) && (l3.end.y * inf) === (l4.end.y * inf)) {
     console.log('collision');
@@ -171,7 +136,41 @@ let wrap = () => {
   }
 }
 
-wrap();
+let collisioncheck2 = () => {
+  clear();
+  rec.render();
+  dot.render();
+
+  let lines = corners.map(c => {
+    return new Line(dot.pos,c);
+  })
+
+  for(let line of lines) {
+    line.ctx = ctx;
+    line.color = '#22f2f1';
+    line.render();
+  }
+
+  let lineends = lines.map(l => {
+    return l.translateStartTo(new Vector2(0,0));
+  }).map(l => {
+    l.end.x = l.end.x !== 0 ? l.end.x / Math.abs(l.end.x) : 0;
+    l.end.y = l.end.y !== 0 ? l.end.y / Math.abs(l.end.y) : 0;
+    return l.end;
+  }).map(e => {
+    return e.x + e.y;
+  }).sort((a,b) => {return a-b}).reduce((ac,e) => {
+    return ac + e;
+  },"");
+  console.log(lineends);
+  if(lineends === "-2002") console.log('Collision');
+  //-1001 -1012 0112 -1012 -2-101 -2-1-10 
+  // rand edge cases benötigt
+
+
+}
+
+collisioncheck2();
 
 IH.bindOnKeyEvent(e => {
   if(e.keyCode === 37) {
@@ -187,7 +186,7 @@ IH.bindOnKeyEvent(e => {
     dot.pos.y += 1;
   }
 
-  wrap();
+  collisioncheck2();
 
 });
 
