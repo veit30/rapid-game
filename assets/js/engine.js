@@ -134,8 +134,8 @@ let wrap = () => {
   },0);
 
   // console.log('ges. length: ' + len);
-  let l3 = lines[0].translateStartTo(new Vector2(0,0));
-  let l4 = lines[1].translateStartTo(new Vector2(0,0));
+  let l3 = lines[0].translateStartTo(new Vector2(0,0)); // corner
+  let l4 = lines[1].translateStartTo(new Vector2(0,0)); // middle
   // console.log(l3);
   // console.log('angle-dot-corner: ' + l3.end.direction);
   // console.log('angle-middle-dot: ' + l4.end.direction);
@@ -144,8 +144,15 @@ let wrap = () => {
 
   // edge cases mit rand fehlen noch!
   // und wenn punkt auf den achsen liegt
-  if((l3.end.x * Infinity) === (l4.end.x * Infinity) && (l3.end.y * Infinity) === (l4.end.y * Infinity)) {
+  let inf = Infinity;
+  if((l3.end.x * inf) === (l4.end.x * inf) && (l3.end.y * inf) === (l4.end.y * inf)) {
     console.log('collision');
+  }
+  if(l3.end.x === 0 || l3.end.y === 0) {
+    // berechne winkel zwischen den beiden linien (wenn >= 90 dann collision)
+    if(l4.length <= rec.collisionRadius) {
+      console.log("collision2");
+    }
   }
 }
 

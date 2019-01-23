@@ -28,7 +28,11 @@ class Rectangle {
     // for later with boundary box
     this.collision = true;
     this.ctx;
-
+  }
+  
+  get collisionRadius() {
+    let l =  new Line(this.calcCorners()[0],this.pos);
+    return l.length;
   }
 
   render() {
