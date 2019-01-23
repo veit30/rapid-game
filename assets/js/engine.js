@@ -148,9 +148,26 @@ let wrap = () => {
   if((l3.end.x * inf) === (l4.end.x * inf) && (l3.end.y * inf) === (l4.end.y * inf)) {
     console.log('collision');
   }
-  if(l3.end.x === 0 || l3.end.y === 0 || l4.end.x === 0 || l4.end.y === 0) {
-    // berechne winkel zwischen den beiden linien (wenn >= 90 dann collision)
-    
+  // edges
+  if(l3.end.y === 0) {
+    if(l4.end.x*inf === l3.end.x*inf || l3.end.x === 0) console.log("collision-edge");
+  }
+
+  if(l3.end.x === 0) {
+    if(l4.end.y*inf === l3.end.y*inf || l3.end.y === 0) console.log("collision-edge");
+  }
+
+  // axes
+  if(l4.end.y === 0) {
+    // console.log('l3: ',l3.end);
+    // console.log('l4: ',l4.end);
+    if(l4.end.x*inf === l3.end.x*inf || l3.end.x === 0) console.log("collision-axis");
+  }
+
+  if(l4.end.x === 0) {
+    // console.log('l3: ',l3.end);
+    // console.log('l4: ',l4.end);
+    if(l4.end.y*inf === l3.end.y*inf || l3.end.y === 0) console.log("collision-axis");
   }
 }
 
