@@ -68,73 +68,7 @@ let dot = new Circle(new Vector2(610,480),2);
 dot.ctx = ctx;
 dot.color = '#ffffff';
 
-let lines2 = [
-  new Line(new Vector2(600,400),new Vector2(600,600)),
-  new Line(new Vector2(500,500),new Vector2(700,500)),
-]
-for(let l of lines2) {
-  l.ctx = ctx;
-  l.color = '#22f2f1';
-  l.render();
-}
 
-let collisioncheck1 = () => {
-  clear();
-  rec.render();
-  dot.render();
-
-  for(let l of lines2) {
-    l.render();
-  }
-
-  let lines = corners.map(e => {
-    return new Line(dot.pos,e);
-  })
-  lines = [lines.sort((l1,l2) => {
-    return l1.length - l2.length;
-  })[0]];
-  lines.push(new Line(rec.pos,dot.pos));
-
-  let line;
-  for(line of lines) {
-    line.ctx = ctx;
-    line.color = '#00ffff';
-    line.render();
-  }
-
-  let len = lines.reduce((a,e) => {
-    return a += e.length;
-  },0);
-
-  let l3 = lines[0].translateStartTo(new Vector2(0,0)); // corner
-  let l4 = lines[1].translateStartTo(new Vector2(0,0)); // middle
-
-  let inf = Infinity;
-  if((l3.end.x * inf) === (l4.end.x * inf) && (l3.end.y * inf) === (l4.end.y * inf)) {
-    console.log('collision');
-  }
-  // edges
-  if(l3.end.y === 0) {
-    if(l4.end.x*inf === l3.end.x*inf || l3.end.x === 0) console.log("collision-edge");
-  }
-
-  if(l3.end.x === 0) {
-    if(l4.end.y*inf === l3.end.y*inf || l3.end.y === 0) console.log("collision-edge");
-  }
-
-  // axes
-  if(l4.end.y === 0) {
-    // console.log('l3: ',l3.end);
-    // console.log('l4: ',l4.end);
-    if(l4.end.x*inf === l3.end.x*inf || l3.end.x === 0) console.log("collision-axis");
-  }
-
-  if(l4.end.x === 0) {
-    // console.log('l3: ',l3.end);
-    // console.log('l4: ',l4.end);
-    if(l4.end.y*inf === l3.end.y*inf || l3.end.y === 0) console.log("collision-axis");
-  }
-}
 
 let collisioncheck2 = () => {
   clear();
