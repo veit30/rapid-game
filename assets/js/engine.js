@@ -151,7 +151,7 @@ let collisioncheck2 = () => {
     line.render();
   }
 
-  let lineends = lines.map(l => {
+  let code = lines.map(l => {
     return l.translateStartTo(new Vector2(0,0));
   }).map(l => {
     l.end.x = l.end.x !== 0 ? l.end.x / Math.abs(l.end.x) : 0;
@@ -162,8 +162,13 @@ let collisioncheck2 = () => {
   }).sort((a,b) => {return a-b}).reduce((ac,e) => {
     return ac + e;
   },"");
-  console.log(lineends);
-  if(lineends === "-2002") console.log('Collision');
+  console.log(code);
+  if(code === "-2002") console.log('Collision');
+  if(code === "-1001") console.log('Collision');
+  if(code === "-1012") console.log('Collision');
+  if(code === "0112") console.log('Collision');
+  if(code === "-2-101") console.log('Collision');
+  if(code === "-2-1-10") console.log('Collision');
   //-1001 -1012 0112 -1012 -2-101 -2-1-10 
   // rand edge cases benötigt
 

@@ -18,6 +18,12 @@ class Circle {
   }
 }
 
+class Triangle {
+  constructor({x,y}) {
+    
+  }
+}
+
 class Rectangle {
   constructor({x,y},width,height, rotation = 0, color = '#ff6565') {
     this.pos = new Vector2(x,y);
