@@ -73,13 +73,13 @@ const IH = new InputHandler();
 let ground = new Rectangle({x:600,y:760},1200,20);
 ground.color = '#775d49';
 ground.ctx = ctx;
-player = new Player({x:160,y:140},40,60);
+player = new Player({x:100,y:160},40,60);
 player.color = '#5ca1c8';
 player.input = IH;
 player.ctx = ctx;
 let obj1 = new Rectangle({x: 200, y: 200}, 60,60,60,'#718ebc');
 obj1.ctx = ctx;
-addGameObjects(ground,obj1);
+addGameObjects(obj1);
 //IH.bindOnMouseMove(e => {console.log(e.clientX,e.clientY)});
 
 gameLoop();

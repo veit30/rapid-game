@@ -11,21 +11,19 @@ class CollisionDetector {
       }
       return false;
     }
-
+    // check the same for the other object!
     for(corner of a.corners) {
-      if(distance(corner,b.pos) > b.maxDist) {
+      if(distance(corner,b.pos) > b.maxCollDist) {
         continue;
       }
+
       lines = b.corners.map(c => {
         return new Line(corner,c);
       });
 
-
-
       if(b.rotation !== 0) {
         lines = lines.map(l => {
           l.end = l.end.rotateTo(l.start,-b.rotation);
-          debugger;
           return l;
         })
       }

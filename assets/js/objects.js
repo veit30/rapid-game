@@ -33,6 +33,11 @@ class Rectangle {
     this.color = color;
     // for later with boundary box
     this._corners = this.calcCorners();
+    this._maxCollDist = this.corners.map(c => {
+      return distance(c,this.pos);
+    }).sort((a,b) => {
+      return b-a;
+    })[0];
     this.collision = true;
     this.ctx;
 
@@ -130,6 +135,16 @@ class Rectangle {
     this._corners = this.calcCorners();
   }
 
+  set posX(x) {
+    this._pos.x = x;
+    this._corners = this.calcCorners();
+  }
+
+  set posY(y) {
+    this._pos.y = y;
+    this._corners = this.calcCorners();
+  }
+
   get pos() {
     return this._pos;
   }
@@ -192,16 +207,16 @@ class Player extends Rectangle {
     let speed = 5;
 
     if(this.input.keyState[37]) {
-      this.pos.x -= speed;
+      this.posX = this.pos.x - speed;
     }
     if(this.input.keyState[39]) {
-      this.pos.x += speed;
+      this.posX = this.pos.x + speed;
     }
     if(this.input.keyState[38]) {
-      this.pos.y -= speed;
+      this.posY = this.pos.y - speed;
     }
     if(this.input.keyState[40]) {
-      this.pos.y += speed;
+      this.posY = this.pos.y + speed;
     }
 
   }

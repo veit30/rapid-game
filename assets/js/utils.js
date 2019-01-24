@@ -2,11 +2,10 @@ const rotateVector = ({x,y},angle) => {
   angle = calcDeg(angle);
   let x1 = Math.cos(angle)*x - Math.sin(angle)*y;
   let y1 = Math.sin(angle)*x + Math.cos(angle)*y;
-
   return new Vector2(x1,y1);
 }
 
-const calcDeg = (angle) => {return angle * Math.PI / 180};
+const calcDeg = angle => {return angle * Math.PI / 180};
 
 const distance = (a,b) => {
   return Math.sqrt(Math.pow(b.x-a.x,2)+Math.pow(b.y-a.y,2));
