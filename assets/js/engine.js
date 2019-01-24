@@ -60,7 +60,7 @@ const gameLoop = () => {
 
 const IH = new InputHandler();
 
-let rec = new Rectangle(new Vector2(600,500),60,70);
+let rec = new Rectangle(new Vector2(600,500),60,70,40);
 rec.ctx = ctx;
 rec.color = '#555';
 let corners = rec.corners;
@@ -151,28 +151,26 @@ let collisioncheck2 = () => {
     line.render();
   }
 
+  // COLLISION ALGORITHM
+  if(rec.rotation !== 0) {
+    lines = lines.map(l => {
+      l.end = l.end.rotateTo(l.start,-rec.rotation);
+      return l;
+    })
+  }
+
   let code = lines.map(l => {
     return l.translateStartTo(new Vector2(0,0));
   }).map(l => {
     l.end.x = l.end.x !== 0 ? l.end.x / Math.abs(l.end.x) : 0;
     l.end.y = l.end.y !== 0 ? l.end.y / Math.abs(l.end.y) : 0;
-    return l.end;
-  }).map(e => {
-    return e.x + e.y;
+    return l.end.x + l.end.y;
   }).sort((a,b) => {return a-b}).reduce((ac,e) => {
     return ac + e;
   },"");
-  console.log(code);
-  if(code === "-2002") console.log('Collision');
-  if(code === "-1001") console.log('Collision');
-  if(code === "-1012") console.log('Collision');
-  if(code === "0112") console.log('Collision');
-  if(code === "-2-101") console.log('Collision');
-  if(code === "-2-1-10") console.log('Collision');
-  //-1001 -1012 0112 -1012 -2-101 -2-1-10 
-  // rand edge cases benötigt
-
-
+  if(['-2002','-2-1-10','-2-101','-1001','-1012','0112'].includes(code)) {
+    console.log('collision');
+  }
 }
 
 collisioncheck2();
