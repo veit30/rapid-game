@@ -18,14 +18,21 @@ class Circle {
   }
 }
 
+class Triangle {
+  constructor({x,y}) {
+    this.pos = new Vector2(x,y);
+  }
+}
+
 class Rectangle {
   constructor({x,y},width,height, rotation = 0, color = '#ff6565') {
-    this.pos = new Vector2(x,y);
-    this.width = width;
-    this.height = height;
-    this.rotation = rotation;
+    this._pos = new Vector2(x,y);
+    this._width = width;
+    this._height = height;
+    this._rotation = rotation;
     this.color = color;
     // for later with boundary box
+    this._corners = this.calcCorners();
     this.collision = true;
     this.ctx;
 
@@ -113,6 +120,61 @@ class Rectangle {
     bounds.push(new Line(lastCorner,corners[0]));
     return bounds;
   }
+
+  get corners() {
+    return this._corners;
+  }
+
+  set pos(pos) {
+    this._pos = pos;
+    this._corners = this.calcCorners();
+  }
+
+  get pos() {
+    return this._pos;
+  }
+
+  set width(width) {
+    this._width = width;
+    this._corners = this.calcCorners();
+    this._maxCollDist = this.corners.map(c => {
+      return distance(c,this.pos);
+    }).sort((a,b) => {
+      return b-a;
+    })[0];
+  }
+
+  get width() {
+    return this._width;
+  }
+
+  set height(height) {
+    this._height = height;
+    this._corners = this.calcCorners();
+    this._maxCollDist = this.corners.map(c => {
+      return distance(c,this.pos);
+    }).sort((a,b) => {
+      return b-a;
+    })[0];
+  }
+
+  get height() {
+    return this._height;
+  }
+
+  set rotation(rotation) {
+    this._rotation = rotation;
+    this._corners = this.calcCorners();
+  }
+
+  get rotation() {
+    return this._rotation;
+  }
+
+  get maxCollDist() {
+    return this._maxCollDist;
+  }
+
 }
 
 class Player extends Rectangle {
