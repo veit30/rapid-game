@@ -1,7 +1,10 @@
 class CollisionDetector {
 
-  static isCollision(a,b) {
-    // only for player with other objects now
+  isCollision(a,b) {
+    return this.testCollision(a,b) || this.testCollision(b,a);
+  }
+
+  testCollision(a,b) {
     let corner,lines,code;
     if(b.constructor.name === 'Circle') {
       for(corner of a.corners) {

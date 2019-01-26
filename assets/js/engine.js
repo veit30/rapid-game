@@ -20,6 +20,7 @@ let bgColor = '#333';
 const gameObjects = [];
 let player;
 let t0 = 0;
+let collDetector = new CollisionDetector();
 
 const clear = () => {
   ctx.save();
@@ -39,7 +40,7 @@ const update = () => {
   player.update();
   for(let go of gameObjects) {
     go.update();
-    if(CollisionDetector.isCollision(player,go)) {
+    if(collDetector.isCollision(player,go)) {
       console.log("Collision");
     }
   }
