@@ -197,6 +197,8 @@ class Player extends Rectangle {
     super({x:x,y:y},width,height);
     this.a = 0;
     this.jump = false;
+    this.direction = new Vector2(0,0);
+    this.oldPos = new Vector2(0,0);
   }
 
   update() {
@@ -205,20 +207,46 @@ class Player extends Rectangle {
     // 39 - RIGHT
     // 40 - DOWN
     let speed = 5;
-
+    let x = 0,y = 0;
     if(this.input.keyState[37]) {
-      this.posX = this.pos.x - speed;
+      // this.posX = this.pos.x - speed;
+      x = -1;
     }
     if(this.input.keyState[39]) {
-      this.posX = this.pos.x + speed;
+      // this.posX = this.pos.x + speed;
+      x = 1;
     }
     if(this.input.keyState[38]) {
-      this.posY = this.pos.y - speed;
+      // this.posY = this.pos.y - speed;
+      y = -1;
     }
     if(this.input.keyState[40]) {
-      this.posY = this.pos.y + speed;
+      // this.posY = this.pos.y + speed;
+      y = 1;
+    }
+    if(this.input.keyState[37] && this.input.keyState[38]) {
+      x = -1;
+      y = -1;
+    }
+    if(this.input.keyState[37] && this.input.keyState[40]) {
+      x = -1;
+      y =  1;
+    }
+    if(this.input.keyState[39] && this.input.keyState[38]) {
+      x =  1;
+      y = -1;
+    }
+    if(this.input.keyState[39] && this.input.keyState[40]) {
+      x = 1;
+      y = 1;
     }
 
+    this.oldPos.x = this.pos.x;
+    this.oldPos.y = this.pos.y;
+    this.direction.x = x;
+    this.direction.y = y;
+    this.posX = this.pos.x + this.direction.x * speed;
+    this.posY = this.pos.y + this.direction.y * speed;
   }
 
   applyForce() {

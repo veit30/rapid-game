@@ -35,6 +35,10 @@ class Vector2 {
     return Math.acos(this.x/this.length) * 360/Math.PI;
   }
 
+  static between(a,b) {
+    return new Vector2(b.x - a.x,b.y - a.y);
+  }
+
 }
 
 class Line {

@@ -41,7 +41,8 @@ const update = () => {
   for(let go of gameObjects) {
     go.update();
     if(collDetector.isCollision(player,go)) {
-      console.log("Collision");
+      collDetector.resolveCollsion(player,go);
+      //player.pos = player.oldPos;
     }
   }
 }
@@ -54,8 +55,8 @@ const addGameObjects = (...el) => {
 
 const gameLoop = () => {
   clear();
-  render();
   update();
+  render();
   t0 = window.requestAnimationFrame(gameLoop);
 }
 
