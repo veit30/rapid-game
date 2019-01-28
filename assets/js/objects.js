@@ -38,6 +38,7 @@ class Rectangle {
     }).sort((a,b) => {
       return b-a;
     })[0];
+    this.lastDistance = 0;
     this.collision = true;
     this.ctx;
 
@@ -247,6 +248,9 @@ class Player extends Rectangle {
     this.direction.y = y;
     this.posX = this.pos.x + this.direction.x * speed;
     this.posY = this.pos.y + this.direction.y * speed;
+    if(this.direction.x !== 0 && this.direction.y !== 0) {
+      this.lastDistance = speed;
+    }
   }
 
   applyForce() {

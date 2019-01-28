@@ -1,7 +1,19 @@
 class CollisionDetector {
 
   isCollision(a,b) {
-    return this.testCollision(a,b) || this.testCollision(b,a)
+    let d1 = this.smallestCollisionDistance(a,b,true);
+    let d2 = this.smallestCollisionDistance(b,a,false);
+    // console.log(d1,d2);
+    let d = d1 <= d2 ? d1 : d2;
+    // debugger;
+    // console.log(a.lastDistance);
+    if(d <= a.lastDistance) {
+      // console.log("resolving");
+
+      // hart verbugggt
+      this.resolveCollision(a,b,d);
+    }
+    // return this.testCollision(a,b) || this.testCollision(b,a)
   }
 
   testCollision(a,b) {
@@ -47,7 +59,15 @@ class CollisionDetector {
     return false;
   }
 
-  resolveCollsion(a,b) {
+  resolveCollision(a,b,d) {
+    let oldPosA = a.oldPos;
+    let newPosA = a.pos;
+    let direction = Vector2.between(oldPosA,newPosA);
+    a.posX = a.oldPos.x + (d - 0.01) * direction.x;
+    a.posY = a.oldPos.y + (d - 0.01) * direction.y;
+  }
+
+  resolveCollision2(a,b) {
     // a need to be the player
 
     // a.pos = new Vector2(a.oldPos.x,a.oldPos.y);
@@ -112,6 +132,50 @@ class CollisionDetector {
 
 
 
+  }
+
+
+  // erneut testen!!!;
+  smallestCollisionDistance(a,b,aIsPlayer) {
+    let oldPosA = aIsPlayer ? a.oldPos : b.oldPos;
+    let newPosA = aIsPlayer ? a.pos : b.pos;
+    let cornersA = a.corners;
+    let cornersB = b.corners;
+
+    cornersA = cornersA.map(c => {
+      return c.rotateTo(b.pos,-b.rotation);
+    })
+
+    cornersB = cornersB.map(c => {
+      return c.rotateTo(b.pos,-b.rotation);
+    })
+    let xmin = b.pos.x - b.width * .5;
+    let xmax = b.pos.x + b.width * .5;
+    let ymin = b.pos.y - b.height * .5;
+    let ymax = b.pos.y + b.height * .5;
+    let oldPosARotated = oldPosA.rotateTo(b.pos,-b.rotation);
+    let newPosARotated = newPosA.rotateTo(b.pos,-b.rotation);
+
+    let dir = aIsPlayer ? Vector2.between(oldPosARotated,newPosARotated) : Vector2.between(newPosARotated,oldPosARotated);
+
+    let distMult = [];
+    for(let ca of cornersA) {
+      for(let cb of cornersB) {
+        let m1 = (cb.x - ca.x)/dir.x;
+        let m2 = (cb.y - ca.y)/dir.y;
+        let p1 = new Vector2(ca.x+dir.x*m1,ca.y+dir.y*m1);
+        let p2 = new Vector2(ca.x+dir.x*m2,ca.y+dir.y*m2);
+        if(p1.x >= xmin && p1.x <= xmax && p1.y >= ymin && p1.y <= ymax) {
+          distMult.push(m1);
+        }
+        if(p2.x >= xmin && p2.x <= xmax && p2.y >= ymin && p2.y <= ymax) {
+          distMult.push(m2);
+        }
+      }
+    }
+    return distMult.sort((a,b) => {
+      return a - b;
+    }).shift();
   }
 
 }
