@@ -40,10 +40,7 @@ const update = () => {
   player.update();
   for(let go of gameObjects) {
     go.update();
-    if(collDetector.isCollision(player,go)) {
-      collDetector.resolveCollsion(player,go);
-      //player.pos = player.oldPos;
-    }
+    collDetector.checkCollision(player,go);
   }
 }
 

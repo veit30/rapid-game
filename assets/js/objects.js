@@ -242,6 +242,8 @@ class Player extends Rectangle {
       y = 1;
     }
 
+    // maybe test here if collision is possible
+
     this.oldPos.x = this.pos.x;
     this.oldPos.y = this.pos.y;
     this.direction.x = x;

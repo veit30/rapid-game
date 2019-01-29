@@ -1,17 +1,23 @@
 class CollisionDetector {
 
-  isCollision(a,b) {
-    let d1 = this.smallestCollisionDistance(a,b,true);
-    let d2 = this.smallestCollisionDistance(b,a,false);
-    // console.log(d1,d2);
+  checkCollision(a,b) {
+
+
+    // ggf. die
+    let oldPos = new Vector2(a.oldPos.x,a.oldPos.y);
+    let actPos = new Vector2(a.pos.x,a.pos.y);
+    let d1 = this.collisionMult(a,b,oldPos,actPos);
+    let d2 = this.collisionMult(b,a,actPos,oldPos);
+    console.log(d1,d2);
     let d = d1 <= d2 ? d1 : d2;
-    // debugger;
-    // console.log(a.lastDistance);
-    if(d <= a.lastDistance) {
-      // console.log("resolving");
+
+    if(d < 0 && d >= -1) {
 
       // hart verbugggt
-      this.resolveCollision(a,b,d);
+      console.log(a.pos);
+      console.log("resolving");
+      this.resolveCollision(a,b,d,oldPos,actPos);
+      console.log(a.pos);
     }
     // return this.testCollision(a,b) || this.testCollision(b,a)
   }
@@ -59,12 +65,15 @@ class CollisionDetector {
     return false;
   }
 
-  resolveCollision(a,b,d) {
-    let oldPosA = a.oldPos;
-    let newPosA = a.pos;
+  resolveCollision(a,b,d,p1,p2) {
+    d = -(d + 1);
+    let oldPosA = p1;
+    let newPosA = p2;
     let direction = Vector2.between(oldPosA,newPosA);
-    a.posX = a.oldPos.x + (d - 0.01) * direction.x;
-    a.posY = a.oldPos.y + (d - 0.01) * direction.y;
+    a.posX = Math.floor(p1.x + d * direction.x);
+    a.posY = Math.floor(p1.y + d * direction.y);
+    a.oldPos.x = a.posX;
+    a.oldPos.y = a.posY;
   }
 
   resolveCollision2(a,b) {
@@ -134,11 +143,9 @@ class CollisionDetector {
 
   }
 
-
-  // erneut testen!!!;
-  smallestCollisionDistance(a,b,aIsPlayer) {
-    let oldPosA = aIsPlayer ? a.oldPos : b.oldPos;
-    let newPosA = aIsPlayer ? a.pos : b.pos;
+  collisionMult(a,b,p1,p2) {
+    let oldPosA = p1;
+    let newPosA = p2;
     let cornersA = a.corners;
     let cornersB = b.corners;
 
@@ -156,7 +163,7 @@ class CollisionDetector {
     let oldPosARotated = oldPosA.rotateTo(b.pos,-b.rotation);
     let newPosARotated = newPosA.rotateTo(b.pos,-b.rotation);
 
-    let dir = aIsPlayer ? Vector2.between(oldPosARotated,newPosARotated) : Vector2.between(newPosARotated,oldPosARotated);
+    let dir = Vector2.between(oldPosARotated,newPosARotated);
 
     let distMult = [];
     for(let ca of cornersA) {
