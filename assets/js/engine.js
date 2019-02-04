@@ -78,7 +78,7 @@ player.input = IH;
 player.ctx = ctx;
 let obj1 = new Rectangle({x: 200, y: 200}, 60,60,60,'#718ebc');
 obj1.ctx = ctx;
-addGameObjects(obj1);
+addGameObjects(ground);
 //IH.bindOnMouseMove(e => {console.log(e.clientX,e.clientY)});
 
 gameLoop();

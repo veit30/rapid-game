@@ -2,22 +2,14 @@ class CollisionDetector {
 
   checkCollision(a,b) {
 
-
-    // ggf. die
     let oldPos = new Vector2(a.oldPos.x,a.oldPos.y);
     let actPos = new Vector2(a.pos.x,a.pos.y);
     let d1 = this.collisionMult(a,b,oldPos,actPos);
     let d2 = this.collisionMult(b,a,actPos,oldPos);
-    console.log(d1,d2);
-    let d = d1 <= d2 ? d1 : d2;
-
+    let d = d1 ? (d2 ? (d1 <= d2 ? d1 : d2) : d1) : d2;
     if(d < 0 && d >= -1) {
-
-      // hart verbugggt
-      console.log(a.pos);
       console.log("resolving");
       this.resolveCollision(a,b,d,oldPos,actPos);
-      console.log(a.pos);
     }
     // return this.testCollision(a,b) || this.testCollision(b,a)
   }
@@ -66,14 +58,16 @@ class CollisionDetector {
   }
 
   resolveCollision(a,b,d,p1,p2) {
-    d = -(d + 1);
+    d = (d + 1);
     let oldPosA = p1;
     let newPosA = p2;
-    let direction = Vector2.between(oldPosA,newPosA);
-    a.posX = Math.floor(p1.x + d * direction.x);
-    a.posY = Math.floor(p1.y + d * direction.y);
-    a.oldPos.x = a.posX;
-    a.oldPos.y = a.posY;
+    let dir = Vector2.between(oldPosA,newPosA);
+    let xoff = d * dir.x;
+    let yoff = d * dir.y;
+    a.posX = dir.x < 0 ? Math.ceil(p1.x + xoff) : Math.floor(p1.x + xoff);
+    a.posY = dir.y < 0 ? Math.ceil(p1.y + yoff) : Math.floor(p1.y + yoff);
+    a.oldPos.x = a.pos.x;
+    a.oldPos.y = a.pos.y;
   }
 
   resolveCollision2(a,b) {
